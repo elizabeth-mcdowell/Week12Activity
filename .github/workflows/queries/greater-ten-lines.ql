@@ -10,12 +10,12 @@ predicate isJavaScriptOrTypeScriptFile(File file) {
   file.getExtension() = "ts" or file.getExtension() = "tsx"
 }
 
-predicate functionGreaterThanNLines(Function func, int n) {
+predicate functionGreaterThanNLines(Function func) {
   exists(
     Line line |
     line.getAncestorOfType(Function).getParent() = func and
     line.getLocation().getStart().getLine() <= func.getLocation().getEnd().getLine() and
-    line.getLocation().getEnd().getLine() >= func.getLocation().getStart().getLine() + n
+    line.getLocation().getEnd().getLine() >= func.getLocation().getStart().getLine() + 10
   )
 }
 
@@ -23,5 +23,5 @@ from Function function, File file
 where
   isJavaScriptOrTypeScriptFile(file) and
   function.getFile() = file and
-  functionGreaterThanNLines(function, 10)
+  functionGreaterThanNLines(function)
 select file, "Functions longer than 10 lines in file " + file.getAbsolutePath()
