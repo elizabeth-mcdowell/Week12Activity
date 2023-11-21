@@ -14,8 +14,7 @@ predicate functionGreaterThanNLines(Function func) {
   exists(
     Line line |
     line.getAncestorOfType(Function).getParent() = func and
-    line.getLocation().getStart().getLine() <= func.getLocation().getEnd().getLine() and
-    line.getLocation().getEnd().getLine() >= func.getLocation().getStart().getLine() + 10
+    line.getNumLines() > 10   
   )
 }
 
